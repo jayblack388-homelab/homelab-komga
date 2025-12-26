@@ -1,0 +1,26 @@
+# Environment and secrets
+.env
+.env.local
+*.key
+*.pem
+*.crt
+*.p12
+
+# Data directories
+data/
+logs/
+backups/
+config/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+docker-compose.override.yml

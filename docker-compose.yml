@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  komga:
+    # REQUIRED: Specific version tag (NEVER :latest)
+    image: gotson/komga:1.23.6
+
+    # REQUIRED: Explicit container name
+    container_name: komga
+
+    # REQUIRED: Hostname for internal DNS
+    hostname: komga
+
+    # REQUIRED: Restart policy (unless-stopped, NOT always)
+    restart: unless-stopped
+
+    # REQUIRED: Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 512M      # Hard cap - container killed if exceeded
+          cpus: '0.5'       # 50% of one core
+        reservations:
+          memory: 256M      # Guaranteed minimum
+
+    # REQUIRED: Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:25600/api/v1/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s     # Komga needs time to initialize
+
+    # REQUIRED: Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"   # Max 10MB per log file
+        max-file: "3"     # Keep 3 files = 30MB total per container
+
+    # REQUIRED: Explicit port mapping
+    ports:
+      - "${KOMGA_PORT:-8081}:25600"  # host:container
+
+    # REQUIRED: Volume declarations
+    volumes:
+      - komga-config:/config              # Named volume for Komga database/settings
+      - ${KOMGA_MEDIA_PATH}:/data:ro      # Bind mount (read-only for safety)
+
+    # REQUIRED: Environment variables
+    environment:
+      - TZ=${TZ:-America/New_York}
+      - KOMGA_CONFIGDIR=/config
+      - SERVER_PORT=25600
+
+    # REQUIRED: User ID to match host user (not root)
+    user: "${PUID:-1000}:${PGID:-1000}"
+
+    # REQUIRED: Explicit network declaration
+    networks:
+      - komga-net
+
+# REQUIRED: Declare all named volumes
+volumes:
+  komga-config:
+    driver: local
+
+# REQUIRED: Declare all custom networks
+networks:
+  komga-net:
+    driver: bridge
