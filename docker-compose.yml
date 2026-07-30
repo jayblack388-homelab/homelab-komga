@@ -17,10 +17,10 @@ services:
     labels:
       homelab.service: "true"
       homelab.service.name: "komga"
-      homelab.service.health: "/api/v1/actuator/health"
+      homelab.service.health: "/komga/api/v1/actuator/health"
       homelab.service.port: "25600"
       homelab.metrics: "true"
-      homelab.metrics.path: "/api/v1/actuator/prometheus"
+      homelab.metrics.path: "/komga/api/v1/actuator/prometheus"
       traefik.enable: "true"
       traefik.http.routers.komga.rule: "Host(`${TRAEFIK_HOSTNAME}`) && PathPrefix(`/komga`)"
       traefik.http.routers.komga.entrypoints: "websecure"
@@ -38,7 +38,7 @@ services:
 
     # REQUIRED: Health check
     healthcheck:
-      test: ["CMD", "curl", "-s", "-o", "/dev/null", "http://localhost:25600/api/v1/actuator/health"]
+      test: ["CMD", "curl", "-s", "-o", "/dev/null", "http://localhost:25600/komga/api/v1/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
