@@ -21,6 +21,11 @@ services:
       homelab.service.port: "25600"
       homelab.metrics: "true"
       homelab.metrics.path: "/api/v1/actuator/prometheus"
+      traefik.enable: "true"
+      traefik.http.routers.komga.rule: "Host(`${TRAEFIK_HOSTNAME}`) && PathPrefix(`/komga`)"
+      traefik.http.routers.komga.entrypoints: "websecure"
+      traefik.http.routers.komga.tls: "true"
+      traefik.http.services.komga.loadbalancer.server.port: "25600"
 
     # REQUIRED: Resource limits
     deploy:
@@ -60,6 +65,7 @@ services:
       - TZ=${TZ:-America/New_York}
       - KOMGA_CONFIGDIR=/config
       - SERVER_PORT=25600
+      - SERVER_SERVLET_CONTEXT_PATH=/komga
 
     # REQUIRED: User ID to match host user (not root)
     user: "${PUID:-1000}:${PGID:-1000}"
