@@ -13,5 +13,5 @@ docker compose up -d
 - Library directory must be mounted as a volume (`KOMGA_MEDIA_PATH` env var) and populated by the comic scraper
 - Web UI on port `${KOMGA_PORT:-8081}` (host) → internal container port 25600
 - Health endpoint: `/api/v1/actuator/health`
-- Prometheus metrics: `/api/v1/actuator/prometheus`, requires admin auth — scraped via a dedicated `komga-rpi` job in homelab-monitoring's `prometheus.yml` (basic auth, `prometheus` account), not the generic `homelab.metrics=true` label path other services use
+- Prometheus metrics: deliberately NOT scraped. `/api/v1/actuator/prometheus` requires admin auth, and basic-auth-authenticated requests hit a Komga-side quirk that serves the frontend SPA instead of real API/actuator responses (confirmed on plain endpoints too, not network/credential-related). Deprioritized 2026-08-01 — see homelab-monitoring's `prometheus.yml` for details.
 - Container needs up to 60s to initialize before health checks pass
