@@ -19,8 +19,10 @@ services:
       homelab.service.name: "komga"
       homelab.service.health: "/komga/api/v1/actuator/health"
       homelab.service.port: "25600"
-      homelab.metrics: "true"
-      homelab.metrics.path: "/komga/api/v1/actuator/prometheus"
+      # No homelab.metrics label: actuator/prometheus requires admin auth,
+      # which the generic label-discovery job can't apply per-target. Scraped
+      # instead via a dedicated authenticated job — see homelab-monitoring's
+      # prometheus.yml (komga-rpi).
       traefik.enable: "true"
       traefik.http.routers.komga.rule: "Host(`${TRAEFIK_HOSTNAME}`) && PathPrefix(`/komga`)"
       traefik.http.routers.komga.entrypoints: "websecure"
