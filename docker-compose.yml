@@ -44,7 +44,13 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 60s     # Komga needs time to initialize
+      start_period: 300s     # Observed cold start: 268s (JVM + native codec loading on RPi ARM
+                              # hardware, confirmed via "Started ApplicationKt in 268.224 seconds"
+                              # in its own logs) — the old 60s was never hit in practice because
+                              # the container hadn't been recreated in 4 days; the first restart
+                              # after this fix revealed it. Below start_period, Traefik correctly
+                              # excludes the container from routing (filters unhealthy/starting
+                              # containers) rather than sending traffic to a not-yet-listening app.
 
     # REQUIRED: Logging configuration
     logging:
@@ -52,10 +58,6 @@ services:
       options:
         max-size: "5m"
         max-file: "2"
-
-    # REQUIRED: Explicit port mapping
-    ports:
-      - "${KOMGA_PORT:-8081}:25600"  # host:container
 
     # REQUIRED: Volume declarations
     volumes:
