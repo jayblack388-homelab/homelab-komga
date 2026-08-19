@@ -19,6 +19,7 @@ services:
       homelab.service.name: "komga"
       homelab.service.health: "/komga/api/v1/actuator/health"
       homelab.service.port: "25600"
+      homelab.service.url: "https://homelab-rpi.tail8c6529.ts.net/komga"
       # No homelab.metrics label: actuator/prometheus requires admin auth,
       # which the generic label-discovery job can't apply per-target. Scraped
       # instead via a dedicated authenticated job — see homelab-monitoring's
