@@ -19,7 +19,7 @@ services:
       homelab.service.name: "komga"
       homelab.service.health: "/komga/api/v1/actuator/health"
       homelab.service.port: "25600"
-      homelab.service.url: "https://homelab-rpi.tail8c6529.ts.net/komga"
+      homelab.service.url: "https://homelab.tail8c6529.ts.net/komga"
       # No homelab.metrics label: actuator/prometheus requires admin auth,
       # which the generic label-discovery job can't apply per-target. Scraped
       # instead via a dedicated authenticated job — see homelab-monitoring's
@@ -81,8 +81,8 @@ services:
       - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_CLIENTNAME=Authelia
       - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_SCOPE=openid,profile,email
       - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_AUTHORIZATIONGRANTTYPE=authorization_code
-      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_REDIRECTURI=https://homelab-rpi.tail8c6529.ts.net/komga/login/oauth2/code/authelia
-      - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_AUTHELIA_ISSUERURI=https://homelab-rpi.tail8c6529.ts.net/authelia
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_REDIRECTURI=https://homelab.tail8c6529.ts.net/komga/login/oauth2/code/authelia
+      - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_AUTHELIA_ISSUERURI=https://homelab.tail8c6529.ts.net/authelia
       - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_AUTHELIA_USERNAMEATTRIBUTE=preferred_username
 
     # REQUIRED: User ID to match host user (not root)

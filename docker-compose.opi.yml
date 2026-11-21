@@ -1,10 +1,9 @@
 # Deploy on homelab-opi (2026-11-21 migration). Selected on the OPi with
 # COMPOSE_FILE=docker-compose.yml:docker-compose.opi.yml in .env.
-# The canonical URL stays https://homelab-rpi.tail8c6529.ts.net/komga until
-# the `homelab` hostname switch: the RPi's Traefik proxies /komga to this
-# container on the OPi tailnet IP, so the OIDC redirect URI registered in
-# Authelia and the Panels app's API URL keep working. The OPi route below is
-# for the switch. Port 25600 is firewalled to the RPi host and Kuma node.
+# The canonical URL is https://homelab.tail8c6529.ts.net/komga (OIDC redirect
+# URI included). The RPi's Traefik still proxies homelab-rpi.../komga here
+# for the Panels app's API URL until that is changed. Port 25600 is
+# firewalled to the RPi host and Kuma node.
 services:
   komga:
     labels:
