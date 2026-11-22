@@ -1,9 +1,9 @@
 # Deploy on homelab-opi (2026-11-21 migration). Selected on the OPi with
 # COMPOSE_FILE=docker-compose.yml:docker-compose.opi.yml in .env.
 # The canonical URL is https://homelab.tail8c6529.ts.net/komga (OIDC redirect
-# URI included). The RPi's Traefik still proxies homelab-rpi.../komga here
-# for the Panels app's API URL until that is changed. Port 25600 is
-# firewalled to the RPi host and Kuma node.
+# URI and the Panels OPDS feed included); homelab-rpi.../komga redirects
+# here. Port 25600 is for Kuma's health check, firewalled to the RPi host
+# and Kuma node.
 services:
   komga:
     labels:
